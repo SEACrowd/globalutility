@@ -20,8 +20,11 @@ languages = constants.get_all_language_pairs()
 languages2 = list(
     sorted(list(set([l[0] for l in languages] + [l[1] for l in languages])))
 )
-languages2.remove("uig")
-languages2.remove("epo")
+try:
+    languages2.remove("uig")
+    languages2.remove("epo")
+except:
+    pass
 
 print(languages2)
 
@@ -32,13 +35,16 @@ demand2 = constants.read_economic_indicators(
     languages2, ind_type="Export", ind="Top 5 absolute"
 )
 all_bleus = constants.read_BLEUs()
-all_populations = constants.read_mt_populations(L1only=True)
+all_populations = constants.read_mt_populations(L1only=False)
 
 
 for INTEREST in "ell,fra,spa,eng,cmn,swa,swe,fin,deu,hin".split(","):
 
     languages = constants.get_mt_languages()
-    languages.remove(INTEREST)
+    try:
+        languages.remove(INTEREST)
+    except:
+        pass
     try:
         languages.remove("uig")
         languages.remove("epo")
@@ -425,7 +431,7 @@ for INTEREST in "ell,fra,spa,eng,cmn,swa,swe,fin,deu,hin".split(","):
     plt.show()
 
     fig.savefig(
-        f"figs/from_lang/bleu_correlations_from_{INTEREST}_L1only.pdf",
+        f"figs/from_lang/bleu_correlations_from_{INTEREST}.pdf",
         quality=100,
         format="pdf",
     )

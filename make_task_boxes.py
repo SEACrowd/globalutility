@@ -168,8 +168,8 @@ elif task == "mttolang":
     accuracyo = [all_bleus[l2, target_lang] for l2 in languages2]
 
 
-TOTAL_POPULATION = constants.TOTAL_POPULATION / 1000000
-pop_denom = constants.TOTAL_POPULATION / 1000000
+TOTAL_POPULATION = constants.TOTAL_SEA_LANG_SPEAKERS / 1000000
+pop_denom = constants.TOTAL_SEA_LANG_SPEAKERS / 1000000
 
 if task == "sdqa_arabic":
     TOTAL_POPULATION = MSA_pop / 1000000
@@ -218,7 +218,8 @@ def include_diversity(l, T=1):
 langs_to_show = set()
 
 # temperatures = list(np.flip(np.arange(1,10)/10)) + [0.01]
-temperatures = [1]
+# temperatures = [0.01, 0.2, 0.3, 0.5]
+temperatures = [0.5]
 
 for temperature in temperatures:
     if temperature == 1:
@@ -250,6 +251,7 @@ for temperature in temperatures:
     temp = [0] + populations
 
     x = np.cumsum(temp)
+    # M = 1
     M = max(accuracy)
     if VERBOSE:
         print(f"Max Accuracy: {M}")
@@ -375,7 +377,7 @@ for temperature in temperatures:
     elif task == "dep":
         listlangs = "ces,deu,cmn,eng,ell,spa,hin,tam,fin,tgl,ben,lin,amh,others"
     elif (task == "mttolang" or task == "mtfromlang") and target_lang == "eng":
-        listlangs = "deu,cmn,eng,ell,spa,tam,ben,lin,others"
+        listlangs = "eng,ljl,ace,ban,bjn,bug,ceb,ilo,ind,jav,kac,khm,lao,lus,min,mya,pag,shn,sun,tha,vie,war,zsm,fil,zlm,hmv,bbc,nij,mad"
     for lll in listlangs.split(","):
         langs_to_show.add(lll)
     if task == "mttolang" or task == "mtfromlang":
@@ -431,7 +433,7 @@ for temperature in temperatures:
     elif task == "sdqa_swahili":
         ax.set_xlabel("Number of Swahili Speakers", fontsize=9, labelpad=20)
     else:
-        ax.set_xlabel("Number of Speakers", fontsize=9, labelpad=20)
+        ax.set_xlabel("Number of Speakers for SEA Languages", fontsize=9, labelpad=20)
     ax.set_ylabel("Relative Quality", fontsize=9)
     ax.spines["right"].set_visible(False)
     ax.spines["top"].set_visible(False)

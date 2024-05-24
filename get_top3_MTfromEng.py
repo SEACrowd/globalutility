@@ -108,8 +108,8 @@ for temperature in temperatures:
 
     MU, area_covered, area_missing = METRIC(populations, accuracies)
 
-    # print(f"Total area covered: M={sum(area_covered)}")
-    # print(f"Total area missing: RoI={sum(area_missing)}")
+    print(f"Total area covered: M={sum(area_covered)}")
+    print(f"Total area missing: RoI={sum(area_missing)}")
 
     """
     inds = np.flip(np.argsort(area_covered))
@@ -122,3 +122,4 @@ for temperature in temperatures:
     print(f"Top 3 Missing with tau = {temperature}")
     for i in inds[:3]:
         print(f"\t{i}\t{languages[i]}\t{area_missing[i]}")
+    print()

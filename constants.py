@@ -2,8 +2,11 @@ from collections import defaultdict
 import economic_indicators
 import os
 
+# As of 2024
+TOTAL_POPULATION = 8100000000.0
+TOTAL_SEA_POPULATION = 675796065
+TOTAL_SEA_LANG_SPEAKERS = 1177957767 # with english added
 # As of 2020
-TOTAL_POPULATION = 7900000000.0
 TOTAL_ENG_POPULATION = 510000000.0
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -64,6 +67,19 @@ def read_populations(L1only=False):
         if l.strip():
             l = l.strip().split("\t")
             d[l[0]] = float(l[2]) / 1000000
+    return d
+
+
+def read_all_populations(L1only=False):
+    # Reads the population file and returns a dictionary
+    with open(all_population_file, "r") as inp:
+        lines = inp.readlines()
+
+    d = {}
+    for l in lines[1:]:
+        if l.strip():
+            l = l.strip().split("\t")
+            d[l[0]] = float(l[1]) / 1000000
     return d
 
 
@@ -209,63 +225,63 @@ def read_noneng_populations():
     return d
 
 
-def read_all_populations():
-    # Synthesis
-    with open(synthesis_population_file, "r") as inp:
-        lines = inp.readlines()
+# def read_all_populations():
+#     # Synthesis
+#     with open(synthesis_population_file, "r") as inp:
+#         lines = inp.readlines()
 
-    d = {}
-    for l in lines:
-        if l.strip():
-            l = l.strip().split("\t")
-            d[l[0]] = float(l[1]) / 1000000
+#     d = {}
+#     for l in lines:
+#         if l.strip():
+#             l = l.strip().split("\t")
+#             d[l[0]] = float(l[1]) / 1000000
 
-    # SIG
-    with open(sigL1_population_file, "r") as inp:
-        lines = inp.readlines()
-    for l in lines:
-        if l.strip():
-            l = l.strip().split("\t")
-            if l[0] not in d:
-                d[l[0]] = float(l[1]) / 1000000
+#     # SIG
+#     with open(sigL1_population_file, "r") as inp:
+#         lines = inp.readlines()
+#     for l in lines:
+#         if l.strip():
+#             l = l.strip().split("\t")
+#             if l[0] not in d:
+#                 d[l[0]] = float(l[1]) / 1000000
 
-    # Dep
-    with open(depL1_population_file, "r") as inp:
-        lines = inp.readlines()
-    for l in lines:
-        if l.strip():
-            l = l.strip().split("\t")
-            if l[0] not in d:
-                d[l[0]] = float(l[1]) / 1000000
+#     # Dep
+#     with open(depL1_population_file, "r") as inp:
+#         lines = inp.readlines()
+#     for l in lines:
+#         if l.strip():
+#             l = l.strip().split("\t")
+#             if l[0] not in d:
+#                 d[l[0]] = float(l[1]) / 1000000
 
-    # XNLI
-    with open(xnliL1_population_file, "r") as inp:
-        lines = inp.readlines()
-    for l in lines:
-        if l.strip():
-            l = l.strip().split("\t")
-            if l[0] not in d:
-                d[l[0]] = float(l[1]) / 1000000
+#     # XNLI
+#     with open(xnliL1_population_file, "r") as inp:
+#         lines = inp.readlines()
+#     for l in lines:
+#         if l.strip():
+#             l = l.strip().split("\t")
+#             if l[0] not in d:
+#                 d[l[0]] = float(l[1]) / 1000000
 
-    # MT
-    with open(mtL1_population_file, "r") as inp:
-        lines = inp.readlines()
-    for l in lines:
-        if l.strip():
-            l = l.strip().split("\t")
-            if l[0] not in d:
-                d[l[0]] = float(l[1]) / 1000000
+#     # MT
+#     with open(mtL1_population_file, "r") as inp:
+#         lines = inp.readlines()
+#     for l in lines:
+#         if l.strip():
+#             l = l.strip().split("\t")
+#             if l[0] not in d:
+#                 d[l[0]] = float(l[1]) / 1000000
 
-    # MT with non-eng file
-    with open(population_file, "r") as inp:
-        lines = inp.readlines()
-    for l in lines[1:]:
-        if l.strip():
-            l = l.strip().split("\t")
-            if l[0] not in d:
-                d[l[0]] = float(l[2]) / 1000000
+#     # MT with non-eng file
+#     with open(population_file, "r") as inp:
+#         lines = inp.readlines()
+#     for l in lines[1:]:
+#         if l.strip():
+#             l = l.strip().split("\t")
+#             if l[0] not in d:
+#                 d[l[0]] = float(l[2]) / 1000000
 
-    return d
+#     return d
 
 
 def read_gdp(languages):
@@ -516,8 +532,8 @@ def get_all_languages():
 def get_languages_from_Eng(domains=None):
     with open(index_file, "r") as inp:
         lines = inp.readlines()
-    with open(flores_index_file, "r") as inp:
-        lines += inp.readlines()[1:]
+    # with open(flores_index_file, "r") as inp:
+    #     lines += inp.readlines()[1:]
 
     languages = set()
     for l in lines[1:]:
@@ -534,8 +550,8 @@ def get_languages_from_Eng(domains=None):
 def get_mt_languages(domains=None):
     with open(index_file, "r") as inp:
         lines = inp.readlines()
-    with open(flores_index_file, "r") as inp:
-        lines += inp.readlines()[1:]
+    # with open(flores_index_file, "r") as inp:
+    #     lines += inp.readlines()[1:]
 
     languages = set()
     for l in lines[1:]:

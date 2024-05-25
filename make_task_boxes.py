@@ -94,6 +94,20 @@ elif task == "qa":
     all_bleus = constants.read_qa_acc()
     populationso = [all_populations[l] for l in languages]
     accuracyo = [all_bleus[l] for l in languages]
+elif task == "topic":
+    all_populations = constants.read_topic_populations()
+    languages = constants.get_topic_languages()
+    languageso = constants.get_topic_languages()
+    all_bleus = constants.read_topic_acc()
+    populationso = [all_populations[l] for l in languages]
+    accuracyo = [all_bleus[l] for l in languages]
+elif task == "senti":
+    all_populations = constants.read_senti_populations()
+    languages = constants.get_senti_languages()
+    languageso = constants.get_senti_languages()
+    all_bleus = constants.read_senti_acc()
+    populationso = [all_populations[l] for l in languages]
+    accuracyo = [all_bleus[l] for l in languages]
 elif task == "sdqa_arabic":
     all_populations = constants.read_sdqa_arabic_populations()
     languages = constants.get_sdqa_arabic_languages()

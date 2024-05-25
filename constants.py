@@ -22,6 +22,8 @@ depL1_population_file = f"{current_dir}/populations/ethnologue_dep_L1_population
 xnli_population_file = f"{current_dir}/populations/ethnologue_xnli_populations.tsv"
 xnliL1_population_file = f"{current_dir}/populations/ethnologue_xnli_L1_populations.tsv"
 qa_population_file = f"{current_dir}/populations/ethnologue_qa_populations.tsv"
+senti_population_file = f"{current_dir}/populations/ethnologue_senti_populations.tsv"
+topic_population_file = f"{current_dir}/populations/ethnologue_topic_populations.tsv"
 sdqa_arabic_population_file = (
     f"{current_dir}/populations/ethnologue_sdqa_arabic_populations.tsv"
 )
@@ -40,7 +42,9 @@ index_file = f"{current_dir}/task_results/MT_index.tsv"
 flores_index_file = f"{current_dir}/task_results/flores_index.tsv"
 triangulation_file = f"{current_dir}/task_results/triangulated_BLEUS.tsv"
 xnli_file = f"{current_dir}/task_results/XNLI.tsv"
-qa_file = f"{current_dir}/task_results/QA.tsv"
+qa_file = f"{current_dir}/task_results/QA_NLU_index.tsv"
+topic_file = f"{current_dir}/task_results/Topic_index.tsv"
+senti_file = f"{current_dir}/task_results/Senti_index.tsv"
 sdqa_arabic_file = f"{current_dir}/task_results/SDQA_ARABIC.tsv"
 sdqa_swahili_file = f"{current_dir}/task_results/SDQA_SWAHILI.tsv"
 dep_file = f"{current_dir}/task_results/DEP.tsv"
@@ -137,6 +141,32 @@ def read_xnli_populations(L1only=False):
 def read_qa_populations(L1only=False):
     # Reads the population file and returns a dictionary
     with open(qa_population_file, "r") as inp:
+        lines = inp.readlines()
+
+    d = {}
+    for l in lines:
+        if l.strip():
+            l = l.strip().split("\t")
+            d[l[0]] = float(l[1]) / 1000000
+    return d
+
+
+def read_senti_populations(L1only=False):
+    # Reads the population file and returns a dictionary
+    with open(senti_population_file, "r") as inp:
+        lines = inp.readlines()
+
+    d = {}
+    for l in lines:
+        if l.strip():
+            l = l.strip().split("\t")
+            d[l[0]] = float(l[1]) / 1000000
+    return d
+
+
+def read_topic_populations(L1only=False):
+    # Reads the population file and returns a dictionary
+    with open(topic_population_file, "r") as inp:
         lines = inp.readlines()
 
     d = {}
@@ -388,6 +418,26 @@ def get_xnli_languages():
 
 def get_qa_languages():
     with open(qa_file, "r") as inp:
+        lines = inp.readlines()
+
+    languages = set()
+    for l in lines[1:]:
+        l = l.strip().split("\t")
+        languages.add(l[0])
+    return sorted(list(languages))
+
+def get_topic_languages():
+    with open(topic_file, "r") as inp:
+        lines = inp.readlines()
+
+    languages = set()
+    for l in lines[1:]:
+        l = l.strip().split("\t")
+        languages.add(l[0])
+    return sorted(list(languages))
+
+def get_senti_languages():
+    with open(senti_file, "r") as inp:
         lines = inp.readlines()
 
     languages = set()
@@ -829,6 +879,36 @@ def read_qa_acc():
 
 
 read_QA_acc = read_qa_acc
+
+
+def read_topic_acc():
+    with open(topic_file, "r") as inp:
+        lines = inp.readlines()
+
+    d = defaultdict(lambda: 0)
+    for l in lines[1:]:
+        l = l.strip().split("\t")
+        d[l[0]] = float(l[1])
+    # print(d)
+    return d
+
+
+read_TOPIC_acc = read_topic_acc
+
+
+def read_senti_acc():
+    with open(senti_file, "r") as inp:
+        lines = inp.readlines()
+
+    d = defaultdict(lambda: 0)
+    for l in lines[1:]:
+        l = l.strip().split("\t")
+        d[l[0]] = float(l[1])
+    # print(d)
+    return d
+
+
+read_SENTI_acc = read_senti_acc
 
 
 def read_sdqa_arabic_acc():

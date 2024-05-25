@@ -1,0 +1,23 @@
+Language	Accuracy	Source
+abs	0.8597835999	aya-101 sentiment analysis weighted f1-score
+ace	0.801585572	aya-101 sentiment analysis weighted f1-score
+ban	0.7853041855	aya-101 sentiment analysis weighted f1-score
+bbc	0.6327935417	aya-101 sentiment analysis weighted f1-score
+bew	0.8750736951	aya-101 sentiment analysis weighted f1-score
+bhp	0.7622482612	aya-101 sentiment analysis weighted f1-score
+bjn	0.8182510708	aya-101 sentiment analysis weighted f1-score
+btx	0.6633448984	aya-101 sentiment analysis weighted f1-score
+bug	0.6063133346	aya-101 sentiment analysis weighted f1-score
+eng	0.8612707444	aya-101 sentiment analysis weighted f1-score
+fil	0.5291703281	aya-101 sentiment analysis weighted f1-score
+ind	0.5027112098	aya-101 sentiment analysis weighted f1-score
+jav	0.8764462295	aya-101 sentiment analysis weighted f1-score
+mad	0.7670553339	aya-101 sentiment analysis weighted f1-score
+mak	0.7455900685	aya-101 sentiment analysis weighted f1-score
+min	0.8465383121	aya-101 sentiment analysis weighted f1-score
+mui	0.8814192696	aya-101 sentiment analysis weighted f1-score
+mya	0.04058034956	aya-101 sentiment analysis weighted f1-score
+nij	0.7451585412	aya-101 sentiment analysis weighted f1-score
+rej	0.763836339	aya-101 sentiment analysis weighted f1-score
+sun	0.8662744693	aya-101 sentiment analysis weighted f1-score
+tha	0.6248344214	aya-101 sentiment analysis weighted f1-score

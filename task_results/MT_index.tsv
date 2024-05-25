@@ -21,7 +21,7 @@ eng	sun	40.94316138	flores200_eng_Latn_sun_Latn_seacrowd_t2t
 eng	tha	39.7921807	flores200_eng_Latn_tha_Thai_seacrowd_t2t					
 eng	vie	35.83162207	flores200_eng_Latn_vie_Latn_seacrowd_t2t					
 eng	war	35.59338402	flores200_eng_Latn_war_Latn_seacrowd_t2t					
-eng	zsm	51.98476278	flores200_eng_Latn_zsm_Latn_seacrowd_t2t					
+eng	zlm	51.98476278	flores200_eng_Latn_zsm_Latn_seacrowd_t2t					
 eng	ind	50.39580816	ntrex_128_eng-US_ind_seacrowd_t2t					
 eng	mya	15.61742607	ntrex_128_eng-US_mya_seacrowd_t2t					
 eng	fil	46.33167157	ntrex_128_eng-US_fil_seacrowd_t2t					
@@ -62,7 +62,7 @@ sun	eng	50.95081895	flores200_sun_Latn_eng_Latn_seacrowd_t2t
 tha	eng	45.90163921	flores200_tha_Thai_eng_Latn_seacrowd_t2t					
 vie	eng	49.15515099	flores200_vie_Latn_eng_Latn_seacrowd_t2t					
 war	eng	51.30425475	flores200_war_Latn_eng_Latn_seacrowd_t2t					
-zsm	eng	54.51021352	flores200_zsm_Latn_eng_Latn_seacrowd_t2t					
+zlm	eng	54.51021352	flores200_zsm_Latn_eng_Latn_seacrowd_t2t					
 ind	eng	53.6047234	ntrex_128_ind_eng-US_seacrowd_t2t					
 mya	eng	38.66503494	ntrex_128_mya_eng-US_seacrowd_t2t					
 fil	eng	54.60335535	ntrex_128_fil_eng-US_seacrowd_t2t					

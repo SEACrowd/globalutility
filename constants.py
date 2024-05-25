@@ -635,16 +635,20 @@ def read_iliteracy_pop():
     return d
 
 
-def read_BLEUs(domains=None):
+def read_BLEUs(domains=None, to_eng=False, from_eng=False):
     with open(index_file, "r") as inp:
         lines = inp.readlines()
-    with open(flores_index_file, "r") as inp:
-        lines += inp.readlines()[1:]
+    # with open(flores_index_file, "r") as inp:
+    #     lines += inp.readlines()[1:]
 
     d = defaultdict(lambda: 0)
     for l in lines[1:]:
         if l.strip() and l.strip()[0] != "#":
             l = l.strip().split("\t")
+            if to_eng and l[1] != "eng":
+                continue
+            if from_eng and l[0] != "eng":
+                continue
             if domains:
                 if any([w in domains for w in l[7].strip().split(",")]):
                     d[l[0], l[1]] = max(float(l[2]), d[l[0], l[1]])

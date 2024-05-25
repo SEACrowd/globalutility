@@ -150,8 +150,8 @@ elif task == "mtfromlang":
     # languages1.remove(target_lang)
     # languages2.remove(target_lang)
     # languageso.remove(target_lang)
-    all_bleus = constants.read_triangulated_BLEUs()
-    all_bleus[target_lang, target_lang] = 1
+    all_bleus = constants.read_BLEUs(from_eng=True)
+    all_bleus[target_lang, target_lang] = 100
     populationso = [all_populations[l] for l in languages2]
     accuracyo = [all_bleus[target_lang, l2] for l2 in languages2]
 elif task == "mttolang":
@@ -162,14 +162,18 @@ elif task == "mttolang":
     # languages1.remove(target_lang)
     # languages2.remove(target_lang)
     # languageso.remove(target_lang)
-    all_bleus = constants.read_triangulated_BLEUs()
-    all_bleus[target_lang, target_lang] = 1
+    all_bleus = constants.read_BLEUs(to_eng=True)
+    all_bleus[target_lang, target_lang] = 100
+    print(all_bleus)
     populationso = [all_populations[l] for l in languages2]
     accuracyo = [all_bleus[l2, target_lang] for l2 in languages2]
 
 
-TOTAL_POPULATION = constants.TOTAL_SEA_LANG_SPEAKERS / 1000000
-pop_denom = constants.TOTAL_SEA_LANG_SPEAKERS / 1000000
+# TOTAL_POPULATION = constants.TOTAL_SEA_LANG_SPEAKERS / 1000000
+# pop_denom = constants.TOTAL_SEA_LANG_SPEAKERS / 1000000
+
+TOTAL_POPULATION = np.sum(populationso)
+pop_denom = TOTAL_POPULATION
 
 if task == "sdqa_arabic":
     TOTAL_POPULATION = MSA_pop / 1000000
@@ -218,8 +222,8 @@ def include_diversity(l, T=1):
 langs_to_show = set()
 
 # temperatures = list(np.flip(np.arange(1,10)/10)) + [0.01]
-# temperatures = [0.01, 0.2, 0.3, 0.5]
-temperatures = [0.5]
+# temperatures = [0.01, 0.2, 0.3, 0.5, 0.7, 1.0]
+temperatures = [0.5, 1.0]
 
 for temperature in temperatures:
     if temperature == 1:
@@ -251,6 +255,7 @@ for temperature in temperatures:
     temp = [0] + populations
 
     x = np.cumsum(temp)
+    print("x", x)
     # M = 1
     M = max(accuracy)
     if VERBOSE:
@@ -340,14 +345,15 @@ for temperature in temperatures:
                         x0 + 0.03, -0.15, lang[i], props, fontsize=ded_font, rotation=90
                     )
                 elif lang[i] == "other":
-                    ax.text(
-                        x0 + (1 - x0) / 3,
-                        -0.1,
-                        lang[i],
-                        props,
-                        fontsize=ded_font,
-                        rotation=0,
-                    )
+                    # ax.text(
+                    #     x0 + (1 - x0) / 3,
+                    #     -0.1,
+                    #     lang[i],
+                    #     props,
+                    #     fontsize=ded_font,
+                    #     rotation=0,
+                    # )
+                    pass
                 elif lang[i] in langs_to_show:
                     # ax.text(x0, y1, f"{y1:.2f}"[1:], props, fontsize=ded_font, rotation=rot)
                     # ax.text(x0+(x1-x0)/3, -0.12, lang[i], props, fontsize=ded_font, rotation=90)

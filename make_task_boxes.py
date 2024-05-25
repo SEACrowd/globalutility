@@ -236,8 +236,8 @@ def include_diversity(l, T=1):
 langs_to_show = set()
 
 # temperatures = list(np.flip(np.arange(1,10)/10)) + [0.01]
-# temperatures = [0.01, 0.2, 0.3, 0.5, 0.7, 1.0]
-temperatures = [0.5, 1.0]
+temperatures = [0.01, 0.2, 0.3, 0.5, 0.7, 1.0]
+# temperatures = [0.5, 1.0]
 
 for temperature in temperatures:
     if temperature == 1:
@@ -381,7 +381,11 @@ for temperature in temperatures:
     langs_to_show = set()
     listlangs = "deu,cmn,eng,ell,spa,hin,tam,ben,lin,kor,por,other"
     if task == "qa":
-        listlangs = "deu,cmn,eng,ell,spa,hin,tam,tgl,ben,lin,other"
+        listlangs = ",".join(languages)
+    elif task == "topic":
+        listlangs = ",".join(languages)
+    elif task == "senti":
+        listlangs = ",".join(languages)
     elif task == "sdqa_arabic":
         temp = list(languages)
         temp.remove("afb")

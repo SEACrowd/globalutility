@@ -3,10 +3,10 @@ abl	0.4254529301	aya-101 qa nlu weighted f1-score
 ban	0.4254529301	aya-101 qa nlu weighted f1-score
 bjn	0.4254529301	aya-101 qa nlu weighted f1-score
 ceb	0.6336152387	aya-101 qa nlu weighted f1-score
-eng	0.3674971828	aya-101 qa nlu weighted f1-score
 fil	0.478205334	aya-101 qa nlu weighted f1-score
-ind	0.509478416	aya-101 qa nlu weighted f1-score
-jav	0.515601459	aya-101 qa nlu weighted f1-score
+ilo	0.54521931	aya-101 qa nlu weighted f1-score
+ind	0.472332097	aya-101 qa nlu weighted f1-score
+jav	0.4751546303	aya-101 qa nlu weighted f1-score
 kac	0.406411442	aya-101 qa nlu weighted f1-score
 khm	0.6156265229	aya-101 qa nlu weighted f1-score
 lao	0.6147911926	aya-101 qa nlu weighted f1-score
@@ -15,8 +15,8 @@ mak	0.4254529301	aya-101 qa nlu weighted f1-score
 mya	0.6080016151	aya-101 qa nlu weighted f1-score
 nij	0.4254529301	aya-101 qa nlu weighted f1-score
 shn	0.4047430563	aya-101 qa nlu weighted f1-score
-sun	0.5666872043	aya-101 qa nlu weighted f1-score
-tha	0.5102943139	aya-101 qa nlu weighted f1-score
-vie	0.4594309651	aya-101 qa nlu weighted f1-score
+sun	0.5248482878	aya-101 qa nlu weighted f1-score
+tha	0.4831182075	aya-101 qa nlu weighted f1-score
+vie	0.4476006848	aya-101 qa nlu weighted f1-score
 war	0.6200277842	aya-101 qa nlu weighted f1-score
 zsm	0.4845401148	aya-101 qa nlu weighted f1-score

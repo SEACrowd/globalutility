@@ -411,7 +411,7 @@ for temperature in temperatures:
 
         x_prev = 0
 
-        for i in inds:
+        for top_n_idx, i in enumerate(inds):
             # print(i, lang[i])
             # x0 = xdata[i]
             # x1 = xdata[i + 1]
@@ -451,7 +451,10 @@ for temperature in temperatures:
                 if lang[i] == "eng":
                     # ax.text(x0, y1, f"{y1:.1f}", props, fontsize=ded_font, rotation=rot)
                     ax.text(
-                        x0 + 0.03, -0.15, lang[i], props, fontsize=ded_font, rotation=90
+                        x0 + 0.03, -0.2, lang[i], props, fontsize=ded_font, rotation=90
+                    )
+                    ax.text(
+                        x0, -0.35, str(top_n_idx + 1), props, backgroundcolor='#700701', color="#ffffff", fontsize=ded_font-2, rotation=90
                     )
                 elif lang[i] == "other":
                     # ax.text(
@@ -466,7 +469,10 @@ for temperature in temperatures:
                 elif lang[i] in langs_to_show:
                     # ax.text(x0, y1, f"{y1:.2f}"[1:], props, fontsize=ded_font, rotation=rot)
                     # ax.text(x0+(x1-x0)/3, -0.12, lang[i], props, fontsize=ded_font, rotation=90)
-                    ax.text(x0, -0.15, lang[i], props, fontsize=ded_font, rotation=90)
+                    ax.text(x0, -0.2, lang[i], props, fontsize=ded_font, rotation=90)
+                    ax.text(
+                        x0, -0.35, str(top_n_idx + 1), props, backgroundcolor='#700701', color="#ffffff", fontsize=ded_font-2, rotation=90
+                    )
             x_prev = x1
         return area_covered, area_missing
 
@@ -557,7 +563,7 @@ for temperature in temperatures:
     elif task == "sdqa_swahili":
         ax.set_xlabel("Number of Swahili Speakers", fontsize=9, labelpad=20)
     else:
-        ax.set_xlabel("Number of Speakers for SEA Languages", fontsize=9, labelpad=20)
+        ax.set_xlabel("# Speakers for SEA Languages", fontsize=9, labelpad=40)
     ax.set_ylabel("Relative Model Capability", fontsize=9)
     ax.spines["right"].set_visible(False)
     ax.spines["top"].set_visible(False)

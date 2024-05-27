@@ -472,7 +472,10 @@ for temperature in temperatures:
                 if lang_data[i] == "eng":
                     # ax.text(x0, y1, f"{y1:.1f}", props, fontsize=ded_font, rotation=rot)
                     ax.text(
-                        x0 + 0.03, -0.15, lang_data[i], props, fontsize=ded_font, rotation=90
+                        x0 + 0.03, -0.2, lang_data[i], props, fontsize=ded_font, rotation=90
+                    )
+                    ax.text(
+                        x0, -0.35, str(i + 1), props, backgroundcolor='#700701', color="#ffffff", fontsize=ded_font-2, rotation=90
                     )
                 elif lang_data[i] == "other":
                     # ax.text(
@@ -487,7 +490,10 @@ for temperature in temperatures:
                 elif lang_data[i] in langs_to_show:
                     # ax.text(x0, y1, f"{y1:.2f}"[1:], props, fontsize=ded_font, rotation=rot)
                     # ax.text(x0+(x1-x0)/3, -0.12, lang_data[i], props, fontsize=ded_font, rotation=90)
-                    ax.text(x0, -0.15, lang_data[i], props, fontsize=ded_font, rotation=90)
+                    ax.text(x0, -0.2, lang_data[i], props, fontsize=ded_font, rotation=90)
+                    ax.text(
+                        x0, -0.35, str(i + 1), props, backgroundcolor='#700701', color="#ffffff", fontsize=ded_font-2, rotation=90
+                    )
         return area_covered, area_missing
 
     # Create figure and axes
@@ -577,8 +583,8 @@ for temperature in temperatures:
     elif task == "sdqa_swahili":
         ax.set_xlabel("Number of Swahili Speakers", fontsize=9, labelpad=20)
     else:
-        ax.set_xlabel("Number of Speakers for SEA Languages", fontsize=9, labelpad=20)
-    ax.set_ylabel("Relative Data Availability", fontsize=9)
+        ax.set_xlabel("# Speakers for SEA Languages", fontsize=9, labelpad=40)
+    ax.set_ylabel("Relative data availability", fontsize=9)
     ax.spines["right"].set_visible(False)
     ax.spines["top"].set_visible(False)
 

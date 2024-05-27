@@ -108,6 +108,13 @@ elif task == "senti":
     all_bleus = constants.read_senti_acc()
     populationso = [all_populations[l] for l in languages]
     accuracyo = [all_bleus[l] for l in languages]
+elif task == "averaged":
+    all_populations = constants.read_averaged_populations()
+    languages = constants.get_averaged_languages()
+    languageso = constants.get_averaged_languages()
+    all_bleus = constants.read_averaged_acc()
+    populationso = [all_populations[l] for l in languages]
+    accuracyo = [all_bleus[l] for l in languages]
 elif task == "sdqa_arabic":
     all_populations = constants.read_sdqa_arabic_populations()
     languages = constants.get_sdqa_arabic_languages()
@@ -218,6 +225,8 @@ elif task == "sdqa_swahili":
 else:
     accuracyo.append(0)
 
+TOTAL_LANGS = len(languageso) + 1
+
 remaining_langs = TOTAL_LANGS - len(languageso) + 1
 pop_portion = others / float(remaining_langs)
 populationso2 += [pop_portion] * remaining_langs
@@ -237,7 +246,7 @@ langs_to_show = set()
 
 # temperatures = list(np.flip(np.arange(1,10)/10)) + [0.01]
 temperatures = [0.01, 0.2, 0.3, 0.5, 0.7, 1.0]
-# temperatures = [0.5, 1.0]
+# temperatures = [0.5]
 
 for temperature in temperatures:
     if temperature == 1:
@@ -315,6 +324,72 @@ for temperature in temperatures:
             "va": "bottom",
         }
 
+        # ####
+        # # (ORIGINAL) Priority based on quality
+        # ####
+
+        # # Loop over data points; create box from errors at each point
+        # N = len(ydata)
+        # for i in range(N):
+        #     x0 = xdata[i]
+        #     x1 = xdata[i + 1]
+        #     y1 = ydata[i]
+        #     area_covered.append(y1 * (x1 - x0))
+        #     area_missing.append((1 - y1) * (x1 - x0))
+        #     if y1 or lang[i] == "other":
+        #         rect = Rectangle((x0, 0), x1 - x0, y1)
+        #         # print(100-int(y1*100), lang[i],y1)
+        #         if lang[i] == target_lang:
+        #             pc = PatchCollection(
+        #                 [rect],
+        #                 facecolor=colors[100 - int(y1 * 100)],
+        #                 alpha=0.5,
+        #                 edgecolor=colors[100 - int(y1 * 100)],
+        #                 hatch="//",
+        #             )
+        #             # pc = PatchCollection([rect], facecolor=colors[100-int(y1*100)], alpha=0.5, edgecolor=None, hatch='//')
+        #         elif 100 - int(y1 * 100) == 100:
+        #             # print("got here")
+        #             # pc = PatchCollection([rect], facecolor=colors[99-int(y1*100)], alpha=alpha, edgecolor=colors[99-int(y1*100)])
+        #             pc = PatchCollection(
+        #                 [rect],
+        #                 facecolor=colors[99 - int(y1 * 100)],
+        #                 alpha=alpha,
+        #                 edgecolor=None,
+        #             )
+        #         else:
+        #             # pc = PatchCollection([rect], facecolor=colors[100-int(y1*100)], alpha=alpha, edgecolor=colors[100-int(y1*100)])
+        #             pc = PatchCollection(
+        #                 [rect],
+        #                 facecolor=colors[100 - int(y1 * 100)],
+        #                 alpha=alpha,
+        #                 edgecolor=None,
+        #             )
+        #         ax.add_collection(pc)
+        #         if lang[i] == "eng":
+        #             # ax.text(x0, y1, f"{y1:.1f}", props, fontsize=ded_font, rotation=rot)
+        #             ax.text(
+        #                 x0 + 0.03, -0.15, lang[i], props, fontsize=ded_font, rotation=90
+        #             )
+        #         elif lang[i] == "other":
+        #             # ax.text(
+        #             #     x0 + (1 - x0) / 3,
+        #             #     -0.1,
+        #             #     lang[i],
+        #             #     props,
+        #             #     fontsize=ded_font,
+        #             #     rotation=0,
+        #             # )
+        #             pass
+        #         elif lang[i] in langs_to_show:
+        #             # ax.text(x0, y1, f"{y1:.2f}"[1:], props, fontsize=ded_font, rotation=rot)
+        #             # ax.text(x0+(x1-x0)/3, -0.12, lang[i], props, fontsize=ded_font, rotation=90)
+        #             ax.text(x0, -0.15, lang[i], props, fontsize=ded_font, rotation=90)
+
+        ####
+        # (SEACrowd) Priority based on utility
+        ####
+
         # Loop over data points; create box from errors at each point
         N = len(ydata)
         for i in range(N):
@@ -323,6 +398,19 @@ for temperature in temperatures:
             y1 = ydata[i]
             area_covered.append(y1 * (x1 - x0))
             area_missing.append((1 - y1) * (x1 - x0))
+
+        # Sort by area_missing
+        inds = np.flip(np.argsort(area_missing))
+
+        x_prev = 0
+
+        for i in inds:
+            # print(i, lang[i])
+            # x0 = xdata[i]
+            # x1 = xdata[i + 1]
+            x0 = x_prev
+            x1 = x_prev + xdata[i + 1] - xdata[i]
+            y1 = ydata[i]
             if y1 or lang[i] == "other":
                 rect = Rectangle((x0, 0), x1 - x0, y1)
                 # print(100-int(y1*100), lang[i],y1)
@@ -372,6 +460,7 @@ for temperature in temperatures:
                     # ax.text(x0, y1, f"{y1:.2f}"[1:], props, fontsize=ded_font, rotation=rot)
                     # ax.text(x0+(x1-x0)/3, -0.12, lang[i], props, fontsize=ded_font, rotation=90)
                     ax.text(x0, -0.15, lang[i], props, fontsize=ded_font, rotation=90)
+            x_prev = x1
         return area_covered, area_missing
 
     # Create figure and axes
@@ -385,6 +474,8 @@ for temperature in temperatures:
     elif task == "topic":
         listlangs = ",".join(languages)
     elif task == "senti":
+        listlangs = ",".join(languages)
+    elif task == "averaged":
         listlangs = ",".join(languages)
     elif task == "sdqa_arabic":
         temp = list(languages)
@@ -485,3 +576,5 @@ for temperature in temperatures:
     print(f"\tTop 3 Missing with tau = {temperature}")
     for i in inds[:4]:
         print(f"\t{i}\t{languages[i]}\t{area_covered[i]}\t{area_missing[i]}")
+
+    print(langs_to_show)

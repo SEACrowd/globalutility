@@ -25,6 +25,7 @@ qa_population_file = f"{current_dir}/populations/ethnologue_qa_populations.tsv"
 senti_population_file = f"{current_dir}/populations/ethnologue_senti_populations.tsv"
 topic_population_file = f"{current_dir}/populations/ethnologue_topic_populations.tsv"
 averaged_population_file = f"{current_dir}/populations/ethnologue_averaged_populations.tsv"
+data_population_file = f"{current_dir}/populations/ethnologue_data_populations.tsv"
 sdqa_arabic_population_file = (
     f"{current_dir}/populations/ethnologue_sdqa_arabic_populations.tsv"
 )
@@ -47,6 +48,7 @@ qa_file = f"{current_dir}/task_results/QA_NLU_index.tsv"
 topic_file = f"{current_dir}/task_results/Topic_index.tsv"
 senti_file = f"{current_dir}/task_results/Senti_index.tsv"
 averaged_file = f"{current_dir}/task_results/Averaged_index.tsv"
+data_file = f"{current_dir}/task_results/Data_index.tsv"
 sdqa_arabic_file = f"{current_dir}/task_results/SDQA_ARABIC.tsv"
 sdqa_swahili_file = f"{current_dir}/task_results/SDQA_SWAHILI.tsv"
 dep_file = f"{current_dir}/task_results/DEP.tsv"
@@ -182,6 +184,19 @@ def read_topic_populations(L1only=False):
 def read_averaged_populations(L1only=False):
     # Reads the population file and returns a dictionary
     with open(averaged_population_file, "r") as inp:
+        lines = inp.readlines()
+
+    d = {}
+    for l in lines:
+        if l.strip():
+            l = l.strip().split("\t")
+            d[l[0]] = float(l[1]) / 1000000
+    return d
+
+
+def read_data_populations(L1only=False):
+    # Reads the population file and returns a dictionary
+    with open(data_population_file, "r") as inp:
         lines = inp.readlines()
 
     d = {}
@@ -463,6 +478,17 @@ def get_senti_languages():
 
 def get_averaged_languages():
     with open(averaged_file, "r") as inp:
+        lines = inp.readlines()
+
+    languages = set()
+    for l in lines[1:]:
+        l = l.strip().split("\t")
+        languages.add(l[0])
+    return sorted(list(languages))
+
+
+def get_data_languages():
+    with open(data_file, "r") as inp:
         lines = inp.readlines()
 
     languages = set()
@@ -948,6 +974,21 @@ def read_averaged_acc():
 
 
 read_AVG_acc = read_averaged_acc
+
+
+def read_data_acc():
+    with open(data_file, "r") as inp:
+        lines = inp.readlines()
+
+    d = defaultdict(lambda: 0)
+    for l in lines[1:]:
+        l = l.strip().split("\t")
+        d[l[0]] = float(l[1])
+    # print(d)
+    return d
+
+
+read_DATA_acc = read_data_acc
 
 
 def read_sdqa_arabic_acc():

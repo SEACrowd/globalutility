@@ -248,6 +248,9 @@ def include_diversity(l, T=1):
     acc_arr = [f / N for f in acc_arr]
     return list(acc_arr)
 
+def normalize(values, bounds):
+    return [bounds['desired']['lower'] + (x - bounds['actual']['lower']) * (bounds['desired']['upper'] - bounds['desired']['lower']) / (bounds['actual']['upper'] - bounds['actual']['lower']) for x in values]
+
 
 langs_to_show = set()
 
@@ -409,19 +412,37 @@ for temperature in temperatures:
         # Sort by area_missing
         inds = np.flip(np.argsort(area_missing))
 
+        # only show top 20
+        x_data = [0]
+        y_data = []
+        lang_data = []
         x_prev = 0
-
-        for i in inds:
-            # print(i, lang[i])
-            # x0 = xdata[i]
-            # x1 = xdata[i + 1]
+        listlangs = []
+        for i in inds[:20]:
+            listlangs.append(lang[i])
             x0 = x_prev
-            x1 = x_prev + xdata[i + 1] - xdata[i]
-            y1 = ydata[i]
-            if y1 or lang[i] == "other":
+            x1 = x_prev + (xdata[i + 1] - xdata[i])*9
+            x_data.append(x1)
+            y_data.append(ydata[i])
+            lang_data.append(lang[i])
+            x_prev = x1
+        listlangs = ",".join(listlangs)
+        print("listlangs", listlangs)
+
+        x_data = normalize(
+            x_data,
+            {'actual': {'lower': np.min(x_data), 'upper': np.max(x_data)}, 'desired': {'lower': 0, 'upper': 1}}
+        )
+
+        for i in range(len(y_data)):
+            # print(i, lang[i])
+            x0 = x_data[i]
+            x1 = x_data[i + 1]
+            y1 = y_data[i]
+            if y1 or lang_data[i] == "other":
                 rect = Rectangle((x0, 0), x1 - x0, y1)
-                # print(100-int(y1*100), lang[i],y1)
-                if lang[i] == target_lang:
+                # print(100-int(y1*100), lang_data[i],y1)
+                if lang_data[i] == target_lang:
                     pc = PatchCollection(
                         [rect],
                         facecolor=colors[100 - int(y1 * 100)],
@@ -448,26 +469,25 @@ for temperature in temperatures:
                         edgecolor=None,
                     )
                 ax.add_collection(pc)
-                if lang[i] == "eng":
+                if lang_data[i] == "eng":
                     # ax.text(x0, y1, f"{y1:.1f}", props, fontsize=ded_font, rotation=rot)
                     ax.text(
-                        x0 + 0.03, -0.15, lang[i], props, fontsize=ded_font, rotation=90
+                        x0 + 0.03, -0.15, lang_data[i], props, fontsize=ded_font, rotation=90
                     )
-                elif lang[i] == "other":
+                elif lang_data[i] == "other":
                     # ax.text(
                     #     x0 + (1 - x0) / 3,
                     #     -0.1,
-                    #     lang[i],
+                    #     lang_data[i],
                     #     props,
                     #     fontsize=ded_font,
                     #     rotation=0,
                     # )
                     pass
-                elif lang[i] in langs_to_show:
+                elif lang_data[i] in langs_to_show:
                     # ax.text(x0, y1, f"{y1:.2f}"[1:], props, fontsize=ded_font, rotation=rot)
-                    # ax.text(x0+(x1-x0)/3, -0.12, lang[i], props, fontsize=ded_font, rotation=90)
-                    ax.text(x0, -0.15, lang[i], props, fontsize=ded_font, rotation=90)
-            x_prev = x1
+                    # ax.text(x0+(x1-x0)/3, -0.12, lang_data[i], props, fontsize=ded_font, rotation=90)
+                    ax.text(x0, -0.15, lang_data[i], props, fontsize=ded_font, rotation=90)
         return area_covered, area_missing
 
     # Create figure and axes
@@ -558,7 +578,7 @@ for temperature in temperatures:
         ax.set_xlabel("Number of Swahili Speakers", fontsize=9, labelpad=20)
     else:
         ax.set_xlabel("Number of Speakers for SEA Languages", fontsize=9, labelpad=20)
-    ax.set_ylabel("Relative Quality", fontsize=9)
+    ax.set_ylabel("Data Availability", fontsize=9)
     ax.spines["right"].set_visible(False)
     ax.spines["top"].set_visible(False)
 
@@ -586,4 +606,4 @@ for temperature in temperatures:
     for i in inds[:4]:
         print(f"\t{i}\t{languages[i]}\t{area_covered[i]}\t{area_missing[i]}")
 
-    print(langs_to_show)
+    # print(langs_to_show)

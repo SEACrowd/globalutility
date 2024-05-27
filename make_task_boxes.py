@@ -558,7 +558,7 @@ for temperature in temperatures:
         ax.set_xlabel("Number of Swahili Speakers", fontsize=9, labelpad=20)
     else:
         ax.set_xlabel("Number of Speakers for SEA Languages", fontsize=9, labelpad=20)
-    ax.set_ylabel("Relative Quality", fontsize=9)
+    ax.set_ylabel("Relative Model Capability", fontsize=9)
     ax.spines["right"].set_visible(False)
     ax.spines["top"].set_visible(False)
 

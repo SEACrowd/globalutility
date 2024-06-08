@@ -289,8 +289,17 @@ for temperature in temperatures:
 
     x = np.cumsum(temp)
     print("x", x)
+    if task == "data":
+        M = 500
+    elif task == "averaged":
+        for i in range(len(accuracy)):
+            if languages[i] == "eng":
+                M = accuracy[i]
+    else:
+        M = max(accuracy)
     # M = 1
-    M = max(accuracy)
+    # M = max(accuracy)
+    # M = 1000
     if VERBOSE:
         print(f"Max Accuracy: {M}")
     if M > 1:
@@ -442,6 +451,9 @@ for temperature in temperatures:
             if y1 or lang_data[i] == "other":
                 rect = Rectangle((x0, 0), x1 - x0, y1)
                 # print(100-int(y1*100), lang_data[i],y1)
+
+                # Add black to the missing area
+                miss_rect = Rectangle((x0, y1), x1 - x0, 1)
                 if lang_data[i] == target_lang:
                     pc = PatchCollection(
                         [rect],
@@ -468,7 +480,16 @@ for temperature in temperatures:
                         alpha=alpha,
                         edgecolor=None,
                     )
+                miss_pc = PatchCollection(
+                    [miss_rect],
+                    facecolor="#333333",
+                    alpha=0.7,
+                    # edgecolor="#000000",
+                    hatch="//",
+                )
                 ax.add_collection(pc)
+                ax.add_collection(miss_pc)
+                
                 if lang_data[i] == "eng":
                     # ax.text(x0, y1, f"{y1:.1f}", props, fontsize=ded_font, rotation=rot)
                     ax.text(
@@ -490,14 +511,15 @@ for temperature in temperatures:
                 elif lang_data[i] in langs_to_show:
                     # ax.text(x0, y1, f"{y1:.2f}"[1:], props, fontsize=ded_font, rotation=rot)
                     # ax.text(x0+(x1-x0)/3, -0.12, lang_data[i], props, fontsize=ded_font, rotation=90)
-                    ax.text(x0, -0.2, lang_data[i], props, fontsize=ded_font, rotation=90)
+                    ax.text(x0, -0.25, lang_data[i], props, fontsize=ded_font, rotation=90)
                     ax.text(
-                        x0, -0.35, str(i + 1), props, backgroundcolor='#700701', color="#ffffff", fontsize=ded_font-2, rotation=90
+                        x0, -0.45, str(i + 1), props, backgroundcolor='#a60f0f', color="#ffffff", fontsize=ded_font-1, rotation=0, fontweight='bold',
                     )
+        # ax.text(0.4, 0.9, f"$\\tau = {temperature}$", props, fontsize=ded_font+4, rotation=0)
         return area_covered, area_missing
 
     # Create figure and axes
-    fig, ax = plt.subplots(1, figsize=(5.5, 2.2))
+    fig, ax = plt.subplots(1, figsize=(8, 2))
     ax.set_prop_cycle(color=colors)
 
     langs_to_show = set()
@@ -583,8 +605,13 @@ for temperature in temperatures:
     elif task == "sdqa_swahili":
         ax.set_xlabel("Number of Swahili Speakers", fontsize=9, labelpad=20)
     else:
-        ax.set_xlabel("# Speakers for SEA Languages", fontsize=9, labelpad=40)
-    ax.set_ylabel("Relative data availability", fontsize=9)
+        ax.set_xlabel(f"# Speakers for SEA Languages ($\\tau = {temperature}$)", fontsize=9, labelpad=40)
+    if task == "averaged":
+        ax.set_ylabel("Model Capability", fontsize=9)
+    elif task == "data":
+        ax.set_ylabel("Data Availability", fontsize=9)
+    else:
+        ax.set_ylabel("Rel. Quality", fontsize=9)
     ax.spines["right"].set_visible(False)
     ax.spines["top"].set_visible(False)
 

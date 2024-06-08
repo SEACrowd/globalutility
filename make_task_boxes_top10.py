@@ -15,7 +15,7 @@ task = sys.argv[1]
 if task == "mttolang" or task == "mtfromlang":
     target_lang = sys.argv[2]
 
-plt.rc("font", family="serif")
+plt.rc("font", family="sans-serif")
 plt.rc("xtick", labelsize="x-small")
 plt.rc("ytick", labelsize="x-small")
 
@@ -511,9 +511,9 @@ for temperature in temperatures:
                 elif lang_data[i] in langs_to_show:
                     # ax.text(x0, y1, f"{y1:.2f}"[1:], props, fontsize=ded_font, rotation=rot)
                     # ax.text(x0+(x1-x0)/3, -0.12, lang_data[i], props, fontsize=ded_font, rotation=90)
-                    ax.text(x0, -0.25, lang_data[i], props, fontsize=ded_font, rotation=90)
+                    ax.text(x0, -0.275, lang_data[i], props, fontsize=ded_font, rotation=90, fontweight='bold',)
                     ax.text(
-                        x0, -0.45, str(i + 1), props, backgroundcolor='#a60f0f', color="#ffffff", fontsize=ded_font-1, rotation=0, fontweight='bold',
+                        x0, -0.475, str(i + 1), props, backgroundcolor='#a60f0f', color="#ffffff", fontsize=ded_font-1, rotation=0, fontweight='bold',
                     )
         # ax.text(0.4, 0.9, f"$\\tau = {temperature}$", props, fontsize=ded_font+4, rotation=0)
         return area_covered, area_missing

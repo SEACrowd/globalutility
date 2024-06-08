@@ -256,7 +256,7 @@ langs_to_show = set()
 
 # temperatures = list(np.flip(np.arange(1,10)/10)) + [0.01]
 temperatures = [0.01, 0.2, 0.3, 0.5, 0.7, 1.0]
-# temperatures = [0.5]
+# temperatures = [0.7]
 
 for temperature in temperatures:
     if temperature == 1:
@@ -605,11 +605,11 @@ for temperature in temperatures:
     elif task == "sdqa_swahili":
         ax.set_xlabel("Number of Swahili Speakers", fontsize=9, labelpad=20)
     else:
-        ax.set_xlabel(f"# Speakers for SEA Languages ($\\tau = {temperature}$)", fontsize=9, labelpad=40)
+        ax.set_xlabel(f"Potential Demand ($\\tau = {temperature}$)", fontsize=9, labelpad=40)
     if task == "averaged":
-        ax.set_ylabel("Model Capability", fontsize=9)
+        ax.set_ylabel("Current Utility", fontsize=9)
     elif task == "data":
-        ax.set_ylabel("Data Availability", fontsize=9)
+        ax.set_ylabel("Available Resources", fontsize=9)
     else:
         ax.set_ylabel("Rel. Quality", fontsize=9)
     ax.spines["right"].set_visible(False)
